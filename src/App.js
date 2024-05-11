@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import Navbar from "./components/Navbar";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const App = () => {
     const title = `This is first version of Ad space`;
@@ -19,9 +19,19 @@ const App = () => {
         setProducts(newProducts)
     }
 
+    useEffect(() => {
+        fetch('http://localhost:3000/ads')
+            .then(res=>{
+                return res.json()
+            })
+            .then(data=>{
+                setProducts(data)
+            })
+    }, []);
+
     return (
         <div className="App">
-            <Navbar products={products} handleDelete={handleDelete}></Navbar>
+            {products && <Navbar products={products} handleDelete={handleDelete}></Navbar>}
             <div className="content">
                 <h1>{title}</h1>
             </div>
